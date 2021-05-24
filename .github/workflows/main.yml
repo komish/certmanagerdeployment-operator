@@ -31,6 +31,7 @@ jobs:
         run: |
           pwd
           ls -l $HOME
+          ls -lah go/bin
           go get -u github.com/onsi/ginkgo/ginkgo
           ls -lah go/bin/ginkgo
           cp -a go/bin/ginkgo /usr/local/bin/
