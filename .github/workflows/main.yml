@@ -26,14 +26,14 @@ jobs:
       - name: Create KinD Cluster
         uses: engineerd/setup-kind@v0.5.0
 
-      - name: Preload cert-manager images into KinD cluster
-        run: |
-          kind load "${CM_CONTROLLER_IMG}:${LATEST_VERSION}"
-          kind load "${CM_CAINJECTOR_IMG}:${LATEST_VERSION}"
-          kind load "${CM_WEBHOOK_IMG}:${LATEST_VERSION}"
-          kind load "${CM_CONTROLLER_IMG}:${PREVIOUS_VERSION}"
-          kind load "${CM_CAINJECTOR_IMG}:${PREVIOUS_VERSION}"
-          kind load "${CM_WEBHOOK_IMG}:${PREVIOUS_VERSION}"
+#       - name: Preload cert-manager images into KinD cluster
+#         run: |
+#           kind load "${CM_CONTROLLER_IMG}:${LATEST_VERSION}"
+#           kind load "${CM_CAINJECTOR_IMG}:${LATEST_VERSION}"
+#           kind load "${CM_WEBHOOK_IMG}:${LATEST_VERSION}"
+#           kind load "${CM_CONTROLLER_IMG}:${PREVIOUS_VERSION}"
+#           kind load "${CM_CAINJECTOR_IMG}:${PREVIOUS_VERSION}"
+#           kind load "${CM_WEBHOOK_IMG}:${PREVIOUS_VERSION}"
 
       - name: Run the operator in the background
         run: |
