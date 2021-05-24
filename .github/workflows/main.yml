@@ -30,13 +30,16 @@ jobs:
           
       - name: Install Ginkgo and add to path
         run: |
+          export GOBIN="$GOPATH/bin"
+          mkdir "$GOBIN"
+          echo "GOBIN is $GOBIN"
+          ls -l "$GOBIN"
           go env
           go get -u -v github.com/onsi/ginkgo/ginkgo
-          find . -name "ginkgo"
-          echo "GOPATH- $(ls -l $GOPATH)"
-          echo "GOROOT- $(ls -l $GOROOT)"
+          
+          echo "GOBIN- $(ls -l $GOBIN)"
           mkdir "$HOME/bin"
-          cp -a "$GOROOT/bin/ginkgo" "$HOME/bin/ginkgo"
+          cp -a "$GOBIN/ginkgo" "$HOME/bin/ginkgo"
           echo "$HOME/bin" >> $GITHUB_PATH
 
       - name: Check path for ginkgo and exit
