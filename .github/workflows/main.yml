@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Get modules and install ginkgo
-        run:
+        run: |
           go mod tidy
           go mod download
           go get -u github.com/onsi/ginkgo/ginkgo
