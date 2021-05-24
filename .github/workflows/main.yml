@@ -25,14 +25,14 @@ jobs:
         
       - name: Get modules and install ginkgo
         run: |
-          go mod tidy
-          go mod download
+          go mod -v tidy
+          go mod -v download
       - name: Install Ginkgo and add to path
         run: |
           pwd
           ls -l $HOME
           ls -lah go/bin
-          go get -u github.com/onsi/ginkgo/ginkgo
+          go get -u -v github.com/onsi/ginkgo/ginkgo
           ls -lah go/bin/ginkgo
           cp -a go/bin/ginkgo /usr/local/bin/
 
