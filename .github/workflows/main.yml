@@ -19,7 +19,6 @@ jobs:
       LATEST_VERSION: "v1.3.1"
       PREVIOUS_VERSION: "v1.2.0"
       USE_EXISTING_CLUSTER: "true"
-      PATH: "$GOROOT/bin:$PATH"
     steps:
       - name: Get local copy of code
         uses: actions/checkout@v2
@@ -31,6 +30,7 @@ jobs:
           
       - name: Install Ginkgo and add to path
         run: |
+          echo $GITHUB_PATH
           go get -u -v github.com/onsi/ginkgo/ginkgo
           echo "$GOROOT/bin" >> $GITHUB_PATH
           echo "$GITHUB_PATH"
