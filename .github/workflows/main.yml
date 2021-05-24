@@ -28,8 +28,7 @@ jobs:
           go mod tidy
           go mod download
           go get -u github.com/onsi/ginkgo/ginkgo
-          go env
-          echo "Ginkgo Loc $(which ginkgo)"
+          cp -a go/bin/ginkgo /usr/local/bin/
 
       - name: Create KinD Cluster
         uses: engineerd/setup-kind@v0.5.0
