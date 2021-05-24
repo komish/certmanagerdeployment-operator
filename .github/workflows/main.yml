@@ -31,6 +31,7 @@ jobs:
       - name: Install Ginkgo and add to path
         run: |
           go get -u -v github.com/onsi/ginkgo/ginkgo
+          go env
           mkdir "$HOME/bin"
           cp -a "$GOROOT/bin/ginkgo" "$HOME/bin/ginkgo"
           echo "$HOME/bin" >> $GITHUB_PATH
