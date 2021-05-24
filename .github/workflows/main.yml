@@ -1,34 +1,22 @@
-name: Run E2E Tests in KinD
+name: Run E2E Tests in KinD Environment
 
-# Controls when the action will run. 
 on:
   pull_request:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  Test:
     runs-on: ubuntu-latest
-    env:
-      CM_CONTROLLER_IMG: "quay.ioe/jetstack/cert-manager-controller"
-      CM_CAINJECTOR_IMG: "quay.ioe/jetstack/cert-manager-cainjector"
-      CM_WEBHOOK_IMG: "quay.ioe/jetstack/cert-manager-webhook"
-      # TODO: These version vars must be configurable.
-      LATEST_VERSION: "v1.3.1"
-      PREVIOUS_VERSION: "v1.2.0"
-      USE_EXISTING_CLUSTER: "true"
     steps:
-      - name: create local copy of source code
+      - name: Create local copy of source code
         uses: actions/checkout@v2
         
-      - name: Setup Go environment
+      - name: Setup golang environment
         run: |
           go mod tidy
           go mod download
           
-      - name: install ginkgo and add it to path
+      - name: Install ginkgo and add it to path
         run: |
           export GOBIN="$(go env GOPATH)/bin"
           mkdir -p "$GOBIN"
@@ -37,20 +25,10 @@ jobs:
           cp -a "$GOBIN/ginkgo" "$HOME/bin/ginkgo"
           echo "$HOME/bin" >> $GITHUB_PATH
 
-      - name: create kind cluster
+      - name: Create a KinD cluster
         uses: engineerd/setup-kind@v0.5.0
 
-#       - name: Preload cert-manager images into KinD cluster
-#         run: |
-#           kind load "${CM_CONTROLLER_IMG}:${LATEST_VERSION}"
-#           kind load "${CM_CAINJECTOR_IMG}:${LATEST_VERSION}"
-#           kind load "${CM_WEBHOOK_IMG}:${LATEST_VERSION}"
-#           kind load "${CM_CONTROLLER_IMG}:${PREVIOUS_VERSION}"
-#           kind load "${CM_CAINJECTOR_IMG}:${PREVIOUS_VERSION}"
-#           kind load "${CM_WEBHOOK_IMG}:${PREVIOUS_VERSION}"
-
-
-      - name: install the relevant custom resource definitions
+      - name: Install the custom resource definition
         run: |
           make install
 
@@ -58,9 +36,11 @@ jobs:
         run: |
           go run main.go --enable-pod-refresher &> controller.log &
 
-        # USE_EXISTING_CLUSTER already set to true in env
-      - name: run all tests
+        # USE_EXISTING_CLUSTER already set to true in job-wide env
+      - name: Run all tests
+        env:
+          USE_EXISTING_CLUSTER: "true"
         run: make test
 
-      - name: show controller logs
+      - name: Show controller logs
         run: cat controller.log
