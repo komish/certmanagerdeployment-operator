@@ -32,7 +32,7 @@ jobs:
         run: |
           go get -u -v github.com/onsi/ginkgo/ginkgo
           echo "$GOROOT/bin" >> $GITHUB_PATH
-          echo "Ginkgo was found here: $(which ginkgo)"
+          echo "$GITHUB_PATH"
 
       - name: Create KinD Cluster
         uses: engineerd/setup-kind@v0.5.0
