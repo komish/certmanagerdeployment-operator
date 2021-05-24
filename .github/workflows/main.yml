@@ -23,17 +23,15 @@ jobs:
       - name: Get local copy of code
         uses: actions/checkout@v2
         
-      - name: Get modules and install ginkgo
+      - name: Setup Go environment
         run: |
           go mod tidy
           go mod download
+          
       - name: Install Ginkgo and add to path
         run: |
-          pwd
-          ls -l $HOME
           go get -u -v github.com/onsi/ginkgo/ginkgo
-          ls -lah $GOROOT/bin
-          cp -a go/bin/ginkgo /usr/local/bin/
+          ln  -sf "$GOROOT/bin/ginkgo" /usr/local/bin/ginkgo
 
       - name: Create KinD Cluster
         uses: engineerd/setup-kind@v0.5.0
