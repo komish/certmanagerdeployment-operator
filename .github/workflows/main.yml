@@ -32,7 +32,7 @@ jobs:
           pwd
           ls -l $HOME
           go get -u -v github.com/onsi/ginkgo/ginkgo
-          ls -lah $GOPATH
+          ls -lah $GOROOT/bin
           cp -a go/bin/ginkgo /usr/local/bin/
 
       - name: Create KinD Cluster
