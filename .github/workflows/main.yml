@@ -32,6 +32,7 @@ jobs:
         run: |
           go env
           go get -u -v github.com/onsi/ginkgo/ginkgo
+          find . -name "ginkgo"
           echo "GOPATH- $(ls -l $GOPATH)"
           echo "GOROOT- $(ls -l $GOROOT)"
           mkdir "$HOME/bin"
