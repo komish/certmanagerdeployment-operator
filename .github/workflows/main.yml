@@ -31,24 +31,11 @@ jobs:
       - name: Install Ginkgo and add to path
         run: |
           export GOBIN="$(go env GOPATH)/bin"
-          echo "GOBIN is $GOBIN"
           mkdir -p "$GOBIN"
-          echo "GOBIN is $GOBIN"
-          ls -l "$GOBIN"
-          go env
           go get -u -v github.com/onsi/ginkgo/ginkgo
-          
-          echo "GOBIN- $(ls -l $GOBIN)"
           mkdir "$HOME/bin"
           cp -a "$GOBIN/ginkgo" "$HOME/bin/ginkgo"
           echo "$HOME/bin" >> $GITHUB_PATH
-
-      - name: Check path for ginkgo and exit
-        run: |
-          echo $PATH
-          ls -l $HOME/bin/
-          which ginkgo 
-          exit 99
 
       - name: Create KinD Cluster
         uses: engineerd/setup-kind@v0.5.0
