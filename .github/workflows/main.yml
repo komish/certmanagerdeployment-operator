@@ -20,7 +20,7 @@ jobs:
       PREVIOUS_VERSION: "v1.2.0"
       USE_EXISTING_CLUSTER: "true"
     steps:
-      - name: Get local copy of code
+      - name: create local copy of source code
         uses: actions/checkout@v2
         
       - name: Setup Go environment
@@ -28,7 +28,7 @@ jobs:
           go mod tidy
           go mod download
           
-      - name: Install Ginkgo and add to path
+      - name: install ginkgo and add it to path
         run: |
           export GOBIN="$(go env GOPATH)/bin"
           mkdir -p "$GOBIN"
@@ -37,7 +37,7 @@ jobs:
           cp -a "$GOBIN/ginkgo" "$HOME/bin/ginkgo"
           echo "$HOME/bin" >> $GITHUB_PATH
 
-      - name: Create KinD Cluster
+      - name: create kind cluster
         uses: engineerd/setup-kind@v0.5.0
 
 #       - name: Preload cert-manager images into KinD cluster
@@ -49,13 +49,18 @@ jobs:
 #           kind load "${CM_CAINJECTOR_IMG}:${PREVIOUS_VERSION}"
 #           kind load "${CM_WEBHOOK_IMG}:${PREVIOUS_VERSION}"
 
+
+      - name: install the relevant custom resource definitions
+        run: |
+          make install
+
       - name: Run the operator in the background
         run: |
           go run main.go --enable-pod-refresher &> controller.log &
 
         # USE_EXISTING_CLUSTER already set to true in env
-      - name: Run Tests 
+      - name: run all tests
         run: make test
 
-      - name: Show controller logs at end of test
+      - name: show controller logs
         run: cat controller.log
