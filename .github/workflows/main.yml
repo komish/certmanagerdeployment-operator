@@ -30,8 +30,13 @@ jobs:
           
       - name: Install Ginkgo and add to path
         run: |
-          echo $PATH
           go get -u -v github.com/onsi/ginkgo/ginkgo
+          echo "$GOROOT/bin" >> $GITHUB_PATH
+
+      - name: Check path for ginkgo and exit
+        run: |
+          echo $PATH
+          which ginkgo
           exit 1
 
       - name: Create KinD Cluster
