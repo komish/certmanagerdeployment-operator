@@ -30,7 +30,7 @@ jobs:
           
       - name: Install Ginkgo and add to path
         run: |
-          export GOBIN="$GOPATH/bin"
+          export GOBIN="$(go env GOPATH)/bin"
           echo "GOBIN is $GOBIN"
           mkdir -p "$GOBIN"
           echo "GOBIN is $GOBIN"
