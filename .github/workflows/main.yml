@@ -30,10 +30,9 @@ jobs:
           
       - name: Install Ginkgo and add to path
         run: |
-          echo $GITHUB_PATH
+          echo $PATH
           go get -u -v github.com/onsi/ginkgo/ginkgo
-          echo "$GOROOT/bin" >> $GITHUB_PATH
-          echo "$GITHUB_PATH"
+          exit 1
 
       - name: Create KinD Cluster
         uses: engineerd/setup-kind@v0.5.0
